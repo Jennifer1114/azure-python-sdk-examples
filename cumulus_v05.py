@@ -54,6 +54,7 @@ from azure.common.credentials import ServicePrincipalCredentials
 from msrestazure.azure_cloud import AZURE_US_GOV_CLOUD
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.network import NetworkManagementClient
+from azure.mgmt.resource import ResourceManagementClient
 
 from msrestazure import azure_exceptions
 from msrest.exceptions import AuthenticationError
@@ -72,6 +73,7 @@ https://azure-sdk-for-python.readthedocs.io/en/latest/ref/azure.mgmt.network.v20
 '''
 
 network_client = None
+resource_client = None
 
 # Credentials set
 CLIENT = ''  # SP
@@ -83,18 +85,123 @@ subscription_id = ''
 hub_subscription_id = ''
 my_location = ''
 
-# Resources set
+# Texas resources set
 GROUP_NAME = ''
 VNET_NAME = ''
 SUBNET_NAME = ''
 RT_NAME = ''
 ROUTE_NAME = ''
 
+
+# Virginia resources set
+HUB_GROUP_NAME = ''
+HUB_VNET_NAME = ''
+SPOKE_GROUP_NAME = ''
+SPOKE_VNET_NAME = ''
+
+#Subnet resources set
+GW_SUBNET_NAME = ''
+HUB_SUBNET_NAME_1 = ''
+HUB_SUBNET_NAME_2 = ''
+HUB_SUBNET_NAME_3 = ''
+SPOKE_SUBNET_NAME_1 = ''
+SPOKE_SUBNET_NAME_2 = ''
+SPOKE_SUBNET_NAME_3 = ''
+
+# Route resources set
+HUB_RT_NAME = ''
+SPOKE_RT_NAME = ''
+
 # Peerings set
 HUB_NAME = ''
 SPOKE_NAME = ''
-HUB_GROUP_NAME = ''
-HUB_VNET_NAME = ''
+
+# Resource Group Operations
+def create_update_resource_group(
+        resource_group_name,
+        parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates a resource group.
+
+    :param resource_group_name: (str) – The name of the resource group to
+        create or update.
+    :param parameters: (ResourceGroup) – Parameters supplied to the create or
+        update a resource group.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: ResourceGroup or ClientRawResponse if raw=true
+    """
+
+    try:
+        rg_info = resource_client.resource_groups.create_or_update(
+            resource_group_name,
+            parameters
+        )
+        return rg_info.properties.provisioning_state
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def get_resource_group(
+        resource_group_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets a resource group.
+
+    :param resource_group_name: (str) – The name of the resource group to
+        create or update.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: ResourceGroup or ClientRawResponse if raw=true
+    """
+
+    try:
+        rg_info = resource_client.resource_groups.get(
+            resource_group_name
+        )
+        return rg_info
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def delete_resource_group(
+        resource_group_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes a resource group.
+
+    :param resource_group_name: (str) – The name of the resource group to
+        delete. The name is case insensitive.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+
+    try:
+        rg_info = resource_client.resource_groups.delete(
+            resource_group_name,
+            custom_headers=None,
+            raw=False)
+        rg_info.wait()
+
+        return rg_info.status()
+
+    except azure_exceptions.CloudError as e:
+        return e
+
 
 # Virtual Networks Operations:
 def create_update_vnet(
@@ -708,31 +815,6 @@ def main_tx():
 
     global network_client
 
-
-
-    # # Credentials set
-    # CLIENT = '502dcfcb-2dcf-4d34-99b8-df0da97492c4'  # SP
-    # KEY = 'G6ArjqYafpWAQihV+dJXrsWl6LyI+sE+E54SaDHT9VM='  # SP password
-    # TENANT_ID = '046f140a-7429-48ef-92df-030fc7a51d3b'
-    #
-    # # Client set
-    # subscription_id = '7c138a92-f525-4446-88a9-7c5f8d818633'
-    # hub_subscription_id = '777c45ba-c8a0-4ae7-88c1-5b7945b004a6'
-    # my_location = 'usgovtexas'
-    #
-    # # Resources set
-    # GROUP_NAME = 'CHQ_DR_Test_VNet_RG'
-    # VNET_NAME = 'CHQ_DR_Test_VNet2'
-    # SUBNET_NAME = 'chq_dr_test_subnet'
-    # RT_NAME = 'CHQ_DR_Test_RT'
-    # ROUTE_NAME = 'DefaultRoute'
-    #
-    # # Peerings set
-    # HUB_NAME = 'CHQ_DR_Core_to_CHQ_DR_Test'
-    # SPOKE_NAME = 'CHQ_DR_Test_to_CHQ_DR_Core'
-    # HUB_GROUP_NAME = 'CHQ_DR_Core_VNet_RG'
-    # HUB_VNET_NAME = 'CHQ_DR_Core_VNet'
-
     # Create Service Principal
     try:
         credentials = ServicePrincipalCredentials(
@@ -900,6 +982,7 @@ def main_tx():
 def main_va():
 
     global network_client
+    global resource_client
 
     # Create Service Principal
     try:
@@ -912,114 +995,237 @@ def main_va():
     except AuthenticationError as e:
         return e
 
-    # Client example
+    # Create hub and spoke clients
     network_client = NetworkManagementClient(credentials, subscription_id,
                                              base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
 
-    # VNet create or update and get example
+    resource_client = ResourceManagementClient(credentials,
+                                               subscription_id,
+                                               base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
+
+    # Resource group example
+    print("Creating hub resource group...")
+    print(create_update_resource_group(
+        HUB_GROUP_NAME,
+        {'location': my_location})
+    )
+    print("Get hub resource group...")
+    print(get_resource_group(
+        HUB_GROUP_NAME)
+    )
+    print("Creating spoke resource group...")
+    print(create_update_resource_group(
+        SPOKE_GROUP_NAME,
+        {'location': my_location})
+    )
+    print("Get spoke resource group...")
+    print(get_resource_group(
+        SPOKE_GROUP_NAME)
+    )
+
+    # VNet example
     print("Creating hub virtual network...")
     print(create_update_vnet(
-        GROUP_NAME,
-        VNET_NAME,
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
         {'location': my_location,
-         'address_space': {'address_prefixes': ['10.71.0.0/20']}
-         #'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}
-         })
+         'address_space': {'address_prefixes': ['10.71.0.0/20']},
+         'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
+         )
     )
 
-    print("Getting virtual network info...")
+    print("Creating spoke virtual network...")
+    print(create_update_vnet(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        {'location': my_location,
+         'address_space': {'address_prefixes': ['10.71.64.0/20']},
+         'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
+         )
+    )
+
+    print("Getting hub virtual network info...")
     print(get_vnet(
-        GROUP_NAME,
-        VNET_NAME)
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME)
     )
 
-    # Route and route table example
-    print("Creating route table...")
+    print("Getting spoke virtual network info...")
+    print(get_vnet(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME)
+    )
+
+    # Route and route table example for hub
+    print("Creating hub route table...")
     print(create_update_route_table(
-        GROUP_NAME,
-        RT_NAME,
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
         {'location': my_location})
     )
 
-    print("Creating default route...")
+    print("Creating hub default route...")
     print(create_update_route(
-        GROUP_NAME,
-        RT_NAME,
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
         ROUTE_NAME,
         {'address_prefix': '0.0.0.0/0',
          'next_hop_type': 'VirtualNetworkGateway'})
     )
 
-    print("Get route info...")
+    print("Get hub route info...")
     print(get_route(
-        GROUP_NAME,
-        RT_NAME,
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
         ROUTE_NAME)
     )
 
-    print("Get route table info...")
+    print("Get hub route table info...")
     print(get_route_table(
-        GROUP_NAME,
-        RT_NAME)
+        HUB_GROUP_NAME,
+        HUB_RT_NAME)
     )
 
-    # Subnet get and create or update example: Make a dynamic reference to route_Table id?
+    # Route and route table example for spoke
+    print("Creating spoke route table...")
+    print(create_update_route_table(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        {'location': my_location})
+    )
+
+    print("Creating spoke default route...")
+    print(create_update_route(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        ROUTE_NAME,
+        {'address_prefix': '0.0.0.0/0',
+         'next_hop_type': 'VirtualNetworkGateway'})
+    )
+
+    print("Get spoke route info...")
+    print(get_route(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        ROUTE_NAME)
+    )
+
+    print("Get spoke route table info...")
+    print(get_route_table(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME)
+    )
+
+    # Subnet examples
+    print("Creating hub subnets...")
+    print(create_update_subnet(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_1,
+        {'address_prefix': '10.71.0.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+    print(create_update_subnet(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_2,
+        {'address_prefix': '10.71.4.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+    print(create_update_subnet(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_3,
+        {'address_prefix': '10.71.8.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+
+    # Gateway subnet example
     print("Creating gateway subnet...")
     print(create_update_subnet(
-        GROUP_NAME,
-        VNET_NAME,
-        SUBNET_NAME,
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        GW_SUBNET_NAME,
         {'address_prefix': '10.71.15.0/27',
          'route_table': {
-             'id': ''}})
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
     )
 
-    print("Get subnet info...")
+    print("Get gateway subnet info...")
     print(get_subnet(
-        GROUP_NAME,
-        VNET_NAME,
-        SUBNET_NAME)
-    )
-
-    # Peerings example
-    print("Creating virtual network spoke peering...")
-    print(create_update_peering(
-        GROUP_NAME,
-        VNET_NAME,
-        SPOKE_NAME,
-        {'remote_virtual_network': {
-            'id': ''},
-            'use_remote_gateways': True,
-            'allow_forwarded_traffic': True})
-    )
-
-    print("Get spoke peering info...")
-    print(get_peering(
-        GROUP_NAME,
-        VNET_NAME,
-        SPOKE_NAME)
-    )
-
-    # Use hub network client with CHQ_DR_Core subscription
-    network_client = NetworkManagementClient(credentials, hub_subscription_id,
-                                             base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
-
-    print("Creating virtual network hub peering...")
-    print(create_update_peering(
         HUB_GROUP_NAME,
         HUB_VNET_NAME,
-        HUB_NAME,
-        {'remote_virtual_network': {
-            'id': ''},
-         'allow_gateway_transit': True})
+        GW_SUBNET_NAME)
     )
 
-    print("Get hub peering info...")
-    print(get_peering(
-        HUB_GROUP_NAME,
-        HUB_VNET_NAME,
-        HUB_NAME)
+    print("Creating spoke subnets...")
+    print(create_update_subnet(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_1,
+        {'address_prefix': '10.71.64.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
     )
+    print(create_update_subnet(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_2,
+        {'address_prefix': '10.71.68.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
+    )
+    print(create_update_subnet(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_3,
+        {'address_prefix': '10.71.72.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
+    )
+
+    # # Peerings example
+    # print("Creating virtual network spoke peering...")
+    # print(create_update_peering(
+    #     GROUP_NAME,
+    #     VNET_NAME,
+    #     SPOKE_NAME,
+    #     {'remote_virtual_network': {
+    #         'id': ''},
+    #         'use_remote_gateways': True,
+    #         'allow_forwarded_traffic': True})
+    # )
+    #
+    # print("Get spoke peering info...")
+    # print(get_peering(
+    #     GROUP_NAME,
+    #     VNET_NAME,
+    #     SPOKE_NAME)
+    # )
+    #
+    # # Use hub network client with CHQ_DR_Core subscription
+    # network_client = NetworkManagementClient(credentials, hub_subscription_id,
+    #                                          base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
+
+    # print("Creating virtual network hub peering...")
+    # print(create_update_peering(
+    #     HUB_GROUP_NAME,
+    #     HUB_VNET_NAME,
+    #     HUB_NAME,
+    #     {'remote_virtual_network': {
+    #         'id': ''},
+    #      'allow_gateway_transit': True})
+    # )
+    #
+    # print("Get hub peering info...")
+    # print(get_peering(
+    #     HUB_GROUP_NAME,
+    #     HUB_VNET_NAME,
+    #     HUB_NAME)
+    # )
 
     # print("Deleting virtual network hub peering...")
     # print(delete_peering(
@@ -1046,24 +1252,53 @@ def main_va():
     #     VNET_NAME,
     #     SUBNET_NAME)
     # )
-    #
-    # print("Deleting virtual network...")
+
+    # print("Deleting hub virtual network...")
     # print(delete_vnet(
-    #     GROUP_NAME,
-    #     VNET_NAME)
+    #     HUB_GROUP_NAME,
+    #     HUB_VNET_NAME)
     # )
     #
-    # print("Deleting route...")
+    # print("Deleting spoke virtual network...")
+    # print(delete_vnet(
+    #     SPOKE_GROUP_NAME,
+    #     SPOKE_VNET_NAME)
+    # )
+    #
+    # print("Deleting hub default route...")
     # print(delete_route(
-    #     GROUP_NAME,
-    #     RT_NAME,
+    #     HUB_GROUP_NAME,
+    #     HUB_RT_NAME,
     #     ROUTE_NAME)
     # )
     #
-    # print("Deleting route table...")
+    # print("Deleting spoke default route...")
+    # print(delete_route(
+    #     SPOKE_GROUP_NAME,
+    #     SPOKE_RT_NAME,
+    #     ROUTE_NAME)
+    # )
+    #
+    # print("Deleting hub route table...")
     # print(delete_route_table(
-    #     GROUP_NAME,
-    #     RT_NAME)
+    #     HUB_GROUP_NAME,
+    #     HUB_RT_NAME)
+    # )
+    #
+    # print("Deleting spoke route table...")
+    # print(delete_route_table(
+    #     SPOKE_GROUP_NAME,
+    #     SPOKE_RT_NAME)
+    # )
+    #
+    # print("Deleting hub resource group...")
+    # print(delete_resource_group(
+    #     HUB_GROUP_NAME)
+    # )
+    #
+    # print("Deleting spoke resource group...")
+    # print(delete_resource_group(
+    #     SPOKE_GROUP_NAME)
     # )
 
 # END OF CUMULUS.PY
