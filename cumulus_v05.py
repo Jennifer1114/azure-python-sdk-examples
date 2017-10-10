@@ -113,15 +113,16 @@ HUB_RT_NAME = ''
 SPOKE_RT_NAME = ''
 
 # Local Network Gateway resources set
-cumulus.LN_GW_NAME = ''
-cumulus.LN_GW_IP = ''
-cumulus.LN_ASN = ''
-cumulus.BGP_Peer_IP = ''
+LN_GW_NAME = ''
+LN_GW_IP = ''
+LN_ASN = ''
+BGP_Peer_IP = ''
 
 # Gateway resources set
-cumulus.GW_NAME = 'PGM_Core_GWY'
-cumulus.GW_IP_NAME = 'PGM_Core_GWY_IP'
-cumulus.GW_IP_CONF_NAME = 'PGM_Core_GWY_Config'
+GW_NAME = ''
+GW_IP_NAME = ''
+GW_IP_CONF_NAME = ''
+CONNECTION = ''
 
 # Peerings set
 HUB_NAME = ''
@@ -844,6 +845,7 @@ def create_update_local_network_gateway(
         ClientRawResponse if raw=true
     """
 
+
 def get_local_network_gateway(
         resource_group_name,
         local_network_gateway_name,
@@ -861,6 +863,7 @@ def get_local_network_gateway(
         response
     :return: LocalNetworkGateway or ClientRawResponse if raw=true
     """
+
 
 def delete_local_network_gateway(
         resource_group_name,
@@ -880,6 +883,7 @@ def delete_local_network_gateway(
     :return: AzureOperationPoller instance that returns None or
         ClientRawResponse if raw=true
     """
+
 
 # Main test function for Texas:
 def main_tx():
