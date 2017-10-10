@@ -112,6 +112,17 @@ SPOKE_SUBNET_NAME_3 = ''
 HUB_RT_NAME = ''
 SPOKE_RT_NAME = ''
 
+# Local Network Gateway resources set
+cumulus.LN_GW_NAME = ''
+cumulus.LN_GW_IP = ''
+cumulus.LN_ASN = ''
+cumulus.BGP_Peer_IP = ''
+
+# Gateway resources set
+cumulus.GW_NAME = 'PGM_Core_GWY'
+cumulus.GW_IP_NAME = 'PGM_Core_GWY_IP'
+cumulus.GW_IP_CONF_NAME = 'PGM_Core_GWY_Config'
+
 # Peerings set
 HUB_NAME = ''
 SPOKE_NAME = ''
@@ -750,8 +761,68 @@ def delete_peering(
     except azure_exceptions.CloudError as e:
         return e
 
+
+# Public IP Addresses Operations
+def create_update_public_ip(
+        resource_group_name,
+        public_ip_address_name,
+        parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates a static or dynamic public IP address.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param public_ip_address_name: (str) – The name of the public IP address.
+    :param parameters:  (PublicIPAddress) – Parameters supplied to the create
+        or update public IP address operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns PublicIPAddress or
+        ClientRawResponse if raw=true
+    """
+
+def get_public_ip(
+        resource_group_name,
+        public_ip_address_name,
+        expand=None,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets the specified public IP address in a specified resource group.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param public_ip_address_name: (str) – The name of the public IP address.
+    :param expand: (str) – Expands referenced resources.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: PublicIPAddress or ClientRawResponse if raw=true
+    """
+
+def delete_public_ip(
+        resource_group_name,
+        public_ip_address_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified public IP address.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param public_ip_address_name: (str) – The name of the public IP address.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+
 # Local Network Gateway Operations
-def create_update_local_net_gateway_ops(
+def create_update_local_network_gateway(
         resource_group_name,
         local_network_gateway_name,
         parameters,
@@ -773,7 +844,7 @@ def create_update_local_net_gateway_ops(
         ClientRawResponse if raw=true
     """
 
-def get_local_net_gateway_ops(
+def get_local_network_gateway(
         resource_group_name,
         local_network_gateway_name,
         custom_headers=None,
@@ -791,7 +862,7 @@ def get_local_net_gateway_ops(
     :return: LocalNetworkGateway or ClientRawResponse if raw=true
     """
 
-def delete_local_net_gatewat_ops(
+def delete_local_network_gateway(
         resource_group_name,
         local_network_gateway_name,
         custom_headers=None,
@@ -1187,26 +1258,27 @@ def main_va():
              'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
     )
 
-    # # Peerings example
+    # Peerings example
     # print("Creating virtual network spoke peering...")
     # print(create_update_peering(
-    #     GROUP_NAME,
-    #     VNET_NAME,
+    #     SPOKE_GROUP_NAME,
+    #     SPOKE_VNET_NAME,
     #     SPOKE_NAME,
     #     {'remote_virtual_network': {
-    #         'id': ''},
+    #         'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Core_VNet'},
     #         'use_remote_gateways': True,
-    #         'allow_forwarded_traffic': True})
+    #         'allow_forwarded_traffic': True,
+    #         'allow_virtual_network_access': True})
     # )
     #
     # print("Get spoke peering info...")
     # print(get_peering(
-    #     GROUP_NAME,
-    #     VNET_NAME,
+    #     SPOKE_GROUP_NAME,
+    #     SPOKE_VNET_NAME,
     #     SPOKE_NAME)
     # )
-    #
-    # # Use hub network client with CHQ_DR_Core subscription
+
+    # Use hub network client with PGM_Core subscription
     # network_client = NetworkManagementClient(credentials, hub_subscription_id,
     #                                          base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
 
@@ -1216,8 +1288,9 @@ def main_va():
     #     HUB_VNET_NAME,
     #     HUB_NAME,
     #     {'remote_virtual_network': {
-    #         'id': ''},
-    #      'allow_gateway_transit': True})
+    #         'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Test_VNet'},
+    #      'allow_gateway_transit': True,
+    #      'allow_virtual_network_access': True})
     # )
     #
     # print("Get hub peering info...")
