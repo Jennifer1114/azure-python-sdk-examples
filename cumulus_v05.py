@@ -92,13 +92,14 @@ SUBNET_NAME = ''
 RT_NAME = ''
 ROUTE_NAME = ''
 
-
 # Virginia resources set
 HUB_GROUP_NAME = ''
 HUB_VNET_NAME = ''
 SPOKE_GROUP_NAME = ''
 SPOKE_VNET_NAME = ''
 BGP_GROUP_NAME = ''
+NIC_NAME = ''
+VNET_ASN = ''
 
 #Subnet resources set
 GW_SUBNET_NAME = ''
@@ -124,6 +125,7 @@ GW_NAME = ''
 GW_IP_NAME = ''
 GW_IP_CONF_NAME = ''
 CONNECTION = ''
+SHARED_KEY = ''
 
 # Peerings set
 HUB_NAME = ''
@@ -763,66 +765,6 @@ def delete_peering(
     except azure_exceptions.CloudError as e:
         return e
 
-
-# Public IP Addresses Operations
-def create_update_public_ip(
-        resource_group_name,
-        public_ip_address_name,
-        parameters,
-        custom_headers=None,
-        raw=False
-):
-    """
-    Creates or updates a static or dynamic public IP address.
-
-    :param resource_group_name: (str) – The name of the resource group.
-    :param public_ip_address_name: (str) – The name of the public IP address.
-    :param parameters:  (PublicIPAddress) – Parameters supplied to the create
-        or update public IP address operation.
-    :param custom_headers: (dict) – headers that will be added to the request
-    :param raw: (bool) – returns the direct response alongside the deserialized
-        response
-    :return: AzureOperationPoller instance that returns PublicIPAddress or
-        ClientRawResponse if raw=true
-    """
-
-def get_public_ip(
-        resource_group_name,
-        public_ip_address_name,
-        expand=None,
-        custom_headers=None,
-        raw=False
-):
-    """
-    Gets the specified public IP address in a specified resource group.
-
-    :param resource_group_name: (str) – The name of the resource group.
-    :param public_ip_address_name: (str) – The name of the public IP address.
-    :param expand: (str) – Expands referenced resources.
-    :param custom_headers: (dict) – headers that will be added to the request
-    :param raw: (bool) – returns the direct response alongside the deserialized
-        response
-    :return: PublicIPAddress or ClientRawResponse if raw=true
-    """
-
-def delete_public_ip(
-        resource_group_name,
-        public_ip_address_name,
-        custom_headers=None,
-        raw=False
-):
-    """
-    Deletes the specified public IP address.
-
-    :param resource_group_name: (str) – The name of the resource group.
-    :param public_ip_address_name: (str) – The name of the public IP address.
-    :param custom_headers: (dict) – headers that will be added to the request
-    :param raw: (bool) – returns the direct response alongside the deserialized
-        response
-    :return: AzureOperationPoller instance that returns None or
-        ClientRawResponse if raw=true
-    """
-
 # Local Network Gateway Operations
 def create_update_local_network_gateway(
         resource_group_name,
@@ -1040,6 +982,19 @@ def create_update_virtual_network_gateway(
     :return: AzureOperationPoller instance that returns VirtualNetworkGateway or
         ClientRawResponse if raw=true
     """
+    try:
+        vng_info = network_client.virtual_network_gateways.create_or_update(
+            resource_group_name,
+            virtual_network_gateway_name,
+            parameters,
+            custom_headers=None,
+            raw=None
+        )
+        # vng_info.wait()
+        return vng_info.result().provisioning_state
+
+    except azure_exceptions.CloudError as e:
+        print(e)
 
 def get_virtual_network_gateway(
         resource_group_name,
@@ -1058,6 +1013,18 @@ def get_virtual_network_gateway(
         response
     :return: VirtualNetworkGateway or ClientRawResponse if raw=true
     """
+    try:
+        vng_info = network_client.virtual_network_gateways.get(
+            resource_group_name,
+            virtual_network_gateway_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        return vng_info
+
+    except azure_exceptions.CloudError as e:
+        print(e)
 
 def delete_virtual_network_gateway(
         resource_group_name,
@@ -1077,6 +1044,213 @@ def delete_virtual_network_gateway(
     :return: AzureOperationPoller instance that returns None or
         ClientRawResponse if raw=true
     """
+    try:
+        vng_info = network_client.virtual_network_gateways.delete(
+            resource_group_name,
+            virtual_network_gateway_name,
+            custom_headers=None,
+            raw=None
+        )
+        vng_info.wait()
+        return vng_info.status()
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+# Virtual Network Gateway Connections Operations
+def create_update_vnet_gateway_connection(
+        resource_group_name,
+        virtual_network_gateway_connection_name,
+        parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates a virtual network gateway connection in the specified
+        resource group.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param virtual_network_gateway_connection_name: (str) – The name of the
+        virtual network gateway connection.
+    :param parameters: (VirtualNetworkGatewayConnection) – Parameters
+        supplied to the create or update virtual network gateway connection
+        operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns
+        VirtualNetworkGatewayConnection or ClientRawResponse if raw=true
+    """
+    try:
+        vngc_info = network_client.virtual_network_gateway_connections.create_or_update(
+            resource_group_name,
+            virtual_network_gateway_connection_name,
+            parameters,
+            custom_headers=None,
+            raw=None
+        )
+        vngc_info.wait()
+        return vngc_info.result().provisoning_state
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+def get_vnet_gateway_connection(
+        resource_group_name,
+        virtual_network_gateway_connection_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets the specified virtual network gateway connection by resource group.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param virtual_network_gateway_connection_name: (str) – The name of the
+        virtual network gateway connection.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: VirtualNetworkGatewayConnection or ClientRawResponse if raw=true
+    """
+    try:
+        vngc_info = network_client.virtual_network_gateway_connections.get(
+            resource_group_name,
+            virtual_network_gateway_connection_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        return vngc_info
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+def delete_vnet_gateway_connection(
+        resource_group_name,
+        virtual_network_gateway_connection_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified virtual network Gateway connection.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param virtual_network_gateway_connection_name: (str) – The name of the
+        virtual network gateway connection.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+    try:
+        vngc_info = network_client.virtual_network_gateway_connections.delete(
+            resource_group_name,
+            virtual_network_gateway_connection_name,
+            custom_headers=None,
+            raw=None
+        )
+        vngc_info.wait()
+        return vngc_info.status()
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+# Network Interfaces Operations
+def create_update_network_interface(
+        resource_group_name,
+        network_interface_name,
+        parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates a network interface.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param network_interface_name: (str) – The name of the network interface.
+    :param parameters: (NetworkInterface) – Parameters supplied to the create
+        or update network interface operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns NetworkInterface or
+        ClientRawResponse if raw=true
+    """
+    try:
+        nic_info = network_client.network_interfaces.create_or_update(
+            resource_group_name,
+            network_interface_name,
+            parameters,
+            custom_headers=None,
+            raw=None
+        )
+        nic_info.wait()
+        return nic_info.result().provisioning_state
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+def get_network_interface(
+        resource_group_name,
+        network_interface_name,
+        expand=None,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets information about the specified network interface.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param network_interface_name: (str) – The name of the network interface
+    :param expand: (str) – Expands referenced resources.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: NetworkInterface or ClientRawResponse if raw=true
+    """
+    try:
+        nic_info = network_client.network_interfaces.get(
+            resource_group_name,
+            network_interface_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        return nic_info
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+def delete_network_interface(
+        resource_group_name,
+        network_interface_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified network interface.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param network_interface_name: (str) – The name of the network interface.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+    try:
+        nic_info = network_client.network_interfaces.delete(
+            resource_group_name,
+            network_interface_name,
+            custom_headers=None,
+            raw=None
+        )
+        nic_info.wait()
+        return nic_info.status()
+
+    except azure_exceptions.CloudError as e:
+        print(e)
 
 # Main test function for Texas:
 def main_tx():
@@ -1455,39 +1629,122 @@ def main_va():
     #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
     # )
 
-    # Create BGP Resource Group
-    print("Creating BGP resource group...")
-    print(create_update_resource_group(
-        BGP_GROUP_NAME,
-        {'location': my_location})
-    )
+    # # Create BGP Resource Group
+    # print("Creating BGP resource group...")
+    # print(create_update_resource_group(
+    #     BGP_GROUP_NAME,
+    #     {'location': my_location})
+    # )
+    #
+    # # Local Network Gateways Example
+    # print("Creating local network gateway...")
+    # print(create_update_local_network_gateway(
+    #     BGP_GROUP_NAME,
+    #     LN_GW_NAME,
+    #     {'location': my_location,
+    #      'gateway_ip_address': LN_GW_IP,
+    #      'local_network_address_space': {
+    #          'address_prefixes': ['172.19.66.1/32']},
+    #      'bgp_settings' : {
+    #          'asn': LN_ASN,
+    #          'bgp_peering_address': '172.19.66.1'}
+    #      })
+    # )
+    #
+    # print("Getting local network gateway...")
+    # print(get_local_network_gateway(
+    #     BGP_GROUP_NAME,
+    #     LN_GW_NAME)
+    # )
 
-    # Local Network Gateways Example
-    print("Creating local network gateway...")
-    print(create_update_local_network_gateway(
-        BGP_GROUP_NAME,
-        LN_GW_NAME,
-        {'location': my_location,
-         'gateway_ip_address': LN_GW_IP,
-         'local_network_address_space': {
-             'address_prefixes': ['172.19.66.1/32']},
-         'bgp_settings' : {
-             'asn': LN_ASN,
-             'bgp_peering_address': '172.19.66.1'}
-         })
-    )
+    # Public IP Address Example
+    # print("Creating Public IP Address...")
+    # print(create_update_public_ip_address(
+    #     HUB_GROUP_NAME,
+    #     GW_IP_NAME,
+    #     {'location': my_location,
+    #      'public_ip_allocation_method': 'Dynamic'
+    #      })
+    # )
+    #
+    # print("Getting Public IP Address...")
+    # print(get_public_ip_address(
+    #     HUB_GROUP_NAME,
+    #     GW_IP_NAME)
+    # )
 
-    print("Getting local network gateway...")
-    print(get_local_network_gateway(
-        BGP_GROUP_NAME,
-        LN_GW_NAME)
-    )
+    # print("Creating Network Interface for IP Configuration...")
+    # print(create_update_network_interface(
+    #     HUB_GROUP_NAME,
+    #     NIC_NAME,
+    #     {'location': my_location,
+    #      'ip_configurations': [
+    #          {  'name': 'Default',
+    #             'private_ip_allocation_method': 'Dynamic',
+    #             'subnet': {
+    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Core_VNet/subnets/10_71_0_0'
+    #             },
+    #             'public_ip_address': {
+    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/publicIPAddresses/PGM_Core_GWY_IP'
+    #             }
+    #             }]})
+    # )
+    #
+    # print("Getting Network Interface...")
+    # print(get_network_interface(
+    #     HUB_GROUP_NAME,
+    #     NIC_NAME)
+    # )
 
-    print("Deleting local network gateway...")
-    print(delete_local_network_gateway(
-        BGP_GROUP_NAME,
-        LN_GW_NAME)
-    )
+    # Virtual Network Gateway Example
+    # print("Creating virtual network gateway...")
+    # print(create_update_virtual_network_gateway(
+    #     HUB_GROUP_NAME,
+    #     GW_NAME,
+    #     {'location': my_location,
+    #      'ip_configurations': [
+    #         {   'name': 'Default',
+    #             'private_ip_allocation_method': 'Dynamic',
+    #             'subnet': {
+    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Core_VNet/subnets/GatewaySubnet'},
+    #             'public_ip_address': {
+    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/publicIPAddresses/PGM_Core_GWY_IP'}
+    #         }],
+    #      'gateway_type': 'Vpn',
+    #      'vpn_type': 'RouteBased',
+    #      'bgp_settings': {
+    #          'asn': VNET_ASN},
+    #      'sku': {
+    #          'name': 'HighPerformance',
+    #          'tier': 'HighPerformance'}
+    #      })
+    # )
+
+    # print("Get virtual network gateway...")
+    # print(get_virtual_network_gateway(
+    #     HUB_GROUP_NAME,
+    #     GW_NAME)
+    # )
+
+    # Virtual Network Gateway Connection Operation
+    # print("Creating virtual network gateway connection...")
+    # print(create_update_vnet_gateway_connection(
+    #     HUB_GROUP_NAME,
+    #     CONNECTION,
+    #     {'location': my_location,
+    #      'virtual_network_gateway1': {
+    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworkGateways/PGM_Core_GWY'},
+    #      'local_network_gateway2': {
+    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_BGP_RG/providers/Microsoft.Network/localNetworkGateways/MLB_Local_VPN'},
+    #      'connection_type': 'IPsec',
+    #      'shared_key': SHARED_KEY,
+    #      'enable_bgp': 'True'
+    #      })
+    # )
+    #
+    # print("Getting virtual network gateway connection...")
+    #
+    # print("Deleting virtual network gateway connection...")
 
     # Peerings example
     # print("Creating virtual network spoke peering...")
@@ -1603,6 +1860,30 @@ def main_va():
     # print("Deleting spoke resource group...")
     # print(delete_resource_group(
     #     SPOKE_GROUP_NAME)
+    # )
+    #
+    # print("Deleting local network gateway...")
+    # print(delete_local_network_gateway(
+    #     BGP_GROUP_NAME,
+    #     LN_GW_NAME)
+    # )
+    #
+    # print("Deleting Public IP Address...")
+    # print(delete_public_ip_address(
+    #     HUB_GROUP_NAME,
+    #     GW_IP_NAME)
+    # )
+    #
+    # print("Deleting Network Interface...")
+    # print(delete_network_interface(
+    #     HUB_GROUP_NAME,
+    #     NIC_NAME)
+    # )
+    #
+    # print("Delete virtual network gateway...")
+    # print(delete_virtual_network_gateway(
+    #     HUB_GROUP_NAME,
+    #     GW_NAME)
     # )
 
 # END OF CUMULUS.PY
