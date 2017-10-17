@@ -219,7 +219,7 @@ def delete_resource_group(
 
 
 # Virtual Networks Operations:
-def create_update_vnet(
+def create_update_virtual_networks(
         resource_group_name,
         virtual_network_name,
         parameters,
@@ -256,7 +256,7 @@ def create_update_vnet(
     except azure_exceptions.CloudError as e:
         return e
 
-def get_vnet(
+def get_virtual_networks(
         resource_group_name,
         virtual_network_name,
         expand=None,
@@ -290,7 +290,7 @@ def get_vnet(
     except azure_exceptions.CloudError as e:
         return e
 
-def delete_vnet(
+def delete_virtual_networks(
         resource_group_name,
         virtual_network_name,
         custom_headers=None,
@@ -327,7 +327,7 @@ def delete_vnet(
 
 
 # Subnets Operations:
-def create_update_subnet(
+def create_update_subnets(
         resource_group_name,
         virtual_network_name,
         subnet_name,
@@ -366,7 +366,7 @@ def create_update_subnet(
     except azure_exceptions.CloudError as e:
         return e
 
-def get_subnet(
+def get_subnets(
         resource_group_name,
         virtual_network_name,
         subnet_name,
@@ -403,7 +403,7 @@ def get_subnet(
     except azure_exceptions.CloudError as e:
         return e
 
-def delete_subnet(
+def delete_subnets(
         resource_group_name,
         virtual_network_name,
         subnet_name,
@@ -441,7 +441,7 @@ def delete_subnet(
         return e
 
 # Route Tables Operations
-def create_update_route_table(
+def create_update_route_tables(
         resource_group_name,
         route_table_name,
         parameters,
@@ -477,7 +477,7 @@ def create_update_route_table(
     except azure_exceptions.CloudError as e:
         return e
 
-def get_route_table(
+def get_route_tables(
         resource_group_name,
         route_table_name,
         expand=None,
@@ -511,7 +511,7 @@ def get_route_table(
     except azure_exceptions.CloudError as e:
         return e
 
-def delete_route_table(
+def delete_route_tables(
         resource_group_name,
         route_table_name,
         custom_headers=None,
@@ -545,7 +545,7 @@ def delete_route_table(
         return e
 
 # Routes Operations
-def create_update_route(
+def create_update_routes(
         resource_group_name,
         route_table_name,
         route_name,
@@ -584,7 +584,7 @@ def create_update_route(
     except azure_exceptions.CloudError as e:
         return e
 
-def get_route(
+def get_routes(
         resource_group_name,
         route_table_name,
         route_name,
@@ -618,7 +618,7 @@ def get_route(
     except azure_exceptions.CloudError as e:
         return e
 
-def delete_route(
+def delete_routes(
         resource_group_name,
         route_table_name,
         route_name,
@@ -656,7 +656,7 @@ def delete_route(
 
 
 # Virtual Network Peerings Operations
-def create_update_peering(
+def create_update_virtual_network_peerings(
         resource_group_name,
         virtual_network_name,
         virtual_network_peering_name,
@@ -695,7 +695,7 @@ def create_update_peering(
         return e
 
 
-def get_peering(
+def get_virtual_network_peerings(
         resource_group_name,
         virtual_network_name,
         virtual_network_peering_name,
@@ -729,7 +729,7 @@ def get_peering(
     except azure_exceptions.CloudError as e:
         return e
 
-def delete_peering(
+def delete_virtual_network_peerings(
         resource_group_name,
         virtual_network_name,
         virtual_network_peering_name,
@@ -766,7 +766,7 @@ def delete_peering(
         return e
 
 # Local Network Gateway Operations
-def create_update_local_network_gateway(
+def create_update_local_network_gateways(
         resource_group_name,
         local_network_gateway_name,
         parameters,
@@ -802,7 +802,7 @@ def create_update_local_network_gateway(
         print(e)
 
 
-def get_local_network_gateway(
+def get_local_network_gateways(
         resource_group_name,
         local_network_gateway_name,
         custom_headers=None,
@@ -832,7 +832,7 @@ def get_local_network_gateway(
         print(e)
 
 
-def delete_local_network_gateway(
+def delete_local_network_gateways(
         resource_group_name,
         local_network_gateway_name,
         custom_headers=None,
@@ -864,7 +864,7 @@ def delete_local_network_gateway(
         print(e)
 
 # Public IP Addresses Operations
-def create_update_public_ip_address(
+def create_update_public_ip_addresses(
         resource_group_name,
         public_ip_address_name,
         parameters,
@@ -898,7 +898,7 @@ def create_update_public_ip_address(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def get_public_ip_address(
+def get_public_ip_addresses(
         resource_group_name,
         public_ip_address_name,
         expand=None,
@@ -929,7 +929,7 @@ def get_public_ip_address(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def delete_public_ip_address(
+def delete_public_ip_addresses(
         resource_group_name,
         public_ip_address_name,
         custom_headers=None,
@@ -960,7 +960,7 @@ def delete_public_ip_address(
         print(e)
 
 # Virtual Network Gateway Operations
-def create_update_virtual_network_gateway(
+def create_update_virtual_network_gateways(
         resource_group_name,
         virtual_network_gateway_name,
         parameters,
@@ -996,7 +996,7 @@ def create_update_virtual_network_gateway(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def get_virtual_network_gateway(
+def get_virtual_network_gateways(
         resource_group_name,
         virtual_network_gateway_name,
         custom_headers=None,
@@ -1026,7 +1026,7 @@ def get_virtual_network_gateway(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def delete_virtual_network_gateway(
+def delete_virtual_network_gateways(
         resource_group_name,
         virtual_network_gateway_name,
         custom_headers=None,
@@ -1058,7 +1058,7 @@ def delete_virtual_network_gateway(
         print(e)
 
 # Virtual Network Gateway Connections Operations
-def create_update_vnet_gateway_connection(
+def create_update_virtual_network_gateway_connections(
         resource_group_name,
         virtual_network_gateway_connection_name,
         parameters,
@@ -1095,7 +1095,7 @@ def create_update_vnet_gateway_connection(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def get_vnet_gateway_connection(
+def get_virtual_network_gateway_connections(
         resource_group_name,
         virtual_network_gateway_connection_name,
         custom_headers=None,
@@ -1125,7 +1125,7 @@ def get_vnet_gateway_connection(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def delete_vnet_gateway_connection(
+def delete_virtual_network_gateway_connections(
         resource_group_name,
         virtual_network_gateway_connection_name,
         custom_headers=None,
@@ -1157,7 +1157,7 @@ def delete_vnet_gateway_connection(
         print(e)
 
 # Network Interfaces Operations
-def create_update_network_interface(
+def create_update_network_interfaces(
         resource_group_name,
         network_interface_name,
         parameters,
@@ -1191,7 +1191,7 @@ def create_update_network_interface(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def get_network_interface(
+def get_network_interfaces(
         resource_group_name,
         network_interface_name,
         expand=None,
@@ -1222,7 +1222,7 @@ def get_network_interface(
     except azure_exceptions.CloudError as e:
         print(e)
 
-def delete_network_interface(
+def delete_network_interfaces(
         resource_group_name,
         network_interface_name,
         custom_headers=None,
@@ -1275,7 +1275,7 @@ def main_tx():
 
     # VNet create or update and get example
     print("Creating virtual network...")
-    print(create_update_vnet(
+    print(create_update_virtual_networks(
         GROUP_NAME,
         VNET_NAME,
         {'location': my_location,
@@ -1284,21 +1284,21 @@ def main_tx():
     )
 
     print("Getting virtual network info...")
-    print(get_vnet(
+    print(get_virtual_networks(
         GROUP_NAME,
         VNET_NAME)
     )
 
     # Route and route table example
     print("Creating route table...")
-    print(create_update_route_table(
+    print(create_update_route_tables(
         GROUP_NAME,
         RT_NAME,
         {'location': my_location})
     )
 
     print("Creating default route...")
-    print(create_update_route(
+    print(create_update_routes(
         GROUP_NAME,
         RT_NAME,
         ROUTE_NAME,
@@ -1307,21 +1307,21 @@ def main_tx():
     )
 
     print("Get route info...")
-    print(get_route(
+    print(get_routes(
         GROUP_NAME,
         RT_NAME,
         ROUTE_NAME)
     )
 
     print("Get route table info...")
-    print(get_route_table(
+    print(get_route_tables(
         GROUP_NAME,
         RT_NAME)
     )
 
     # Subnet get and create or update example: Make a dynamic reference to route_Table id?
     print("Creating subnet...")
-    print(create_update_subnet(
+    print(create_update_subnets(
         GROUP_NAME,
         VNET_NAME,
         SUBNET_NAME,
@@ -1330,7 +1330,7 @@ def main_tx():
     )
 
     print("Get subnet info...")
-    print(get_subnet(
+    print(get_subnets(
         GROUP_NAME,
         VNET_NAME,
         SUBNET_NAME)
@@ -1338,7 +1338,7 @@ def main_tx():
 
     # Peerings example
     print("Creating virtual network spoke peering...")
-    print(create_update_peering(
+    print(create_update_virtual_network_peerings(
         GROUP_NAME,
         VNET_NAME,
         SPOKE_NAME,
@@ -1349,7 +1349,7 @@ def main_tx():
     )
 
     print("Get spoke peering info...")
-    print(get_peering(
+    print(get_virtual_network_peerings(
         GROUP_NAME,
         VNET_NAME,
         SPOKE_NAME)
@@ -1360,7 +1360,7 @@ def main_tx():
         base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
 
     print("Creating virtual network hub peering...")
-    print(create_update_peering(
+    print(create_update_virtual_network_peerings(
         HUB_GROUP_NAME,
         HUB_VNET_NAME,
         HUB_NAME,
@@ -1369,14 +1369,14 @@ def main_tx():
     )
 
     print("Get hub peering info...")
-    print(get_peering(
+    print(get_virtual_network_peerings(
         HUB_GROUP_NAME,
         HUB_VNET_NAME,
         HUB_NAME)
     )
 
     print("Deleting virtual network hub peering...")
-    print(delete_peering(
+    print(delete_virtual_network_peerings(
         HUB_GROUP_NAME,
         HUB_VNET_NAME,
         HUB_NAME)
@@ -1388,34 +1388,34 @@ def main_tx():
 
     # Test cascading deletes for dependencies
     print("Deleting virtual network spoke peering...")
-    print(delete_peering(
+    print(delete_virtual_network_peerings(
         GROUP_NAME,
         VNET_NAME,
         SPOKE_NAME)
     )
 
     print("Deleting subnet...")
-    print(delete_subnet(
+    print(delete_subnets(
         GROUP_NAME,
         VNET_NAME,
         SUBNET_NAME)
     )
 
     print("Deleting virtual network...")
-    print(delete_vnet(
+    print(delete_virtual_networks(
         GROUP_NAME,
         VNET_NAME)
     )
 
     print("Deleting route...")
-    print(delete_route(
+    print(delete_routes(
         GROUP_NAME,
         RT_NAME,
         ROUTE_NAME)
     )
 
     print("Deleting route table...")
-    print(delete_route_table(
+    print(delete_route_tables(
         GROUP_NAME,
         RT_NAME)
     )
@@ -1445,221 +1445,221 @@ def main_va():
                                                subscription_id,
                                                base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
 
-    # # Resource group example
-    # print("Creating hub resource group...")
-    # print(create_update_resource_group(
-    #     HUB_GROUP_NAME,
-    #     {'location': my_location})
-    # )
-    # print("Get hub resource group...")
-    # print(get_resource_group(
-    #     HUB_GROUP_NAME)
-    # )
-    # print("Creating spoke resource group...")
-    # print(create_update_resource_group(
-    #     SPOKE_GROUP_NAME,
-    #     {'location': my_location})
-    # )
-    # print("Get spoke resource group...")
-    # print(get_resource_group(
-    #     SPOKE_GROUP_NAME)
-    # )
-    #
-    # # VNet example
-    # print("Creating hub virtual network...")
-    # print(create_update_vnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     {'location': my_location,
-    #      'address_space': {'address_prefixes': ['10.71.0.0/20']},
-    #      'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
-    #      )
-    # )
-    #
-    # print("Creating spoke virtual network...")
-    # print(create_update_vnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME,
-    #     {'location': my_location,
-    #      'address_space': {'address_prefixes': ['10.71.64.0/20']},
-    #      'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
-    #      )
-    # )
-    #
-    # print("Getting hub virtual network info...")
-    # print(get_vnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME)
-    # )
-    #
-    # print("Getting spoke virtual network info...")
-    # print(get_vnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME)
-    # )
-    #
-    # # Route and route table example for hub
-    # print("Creating hub route table...")
-    # print(create_update_route_table(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME,
-    #     {'location': my_location})
-    # )
-    #
-    # print("Creating hub default route...")
-    # print(create_update_route(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME,
-    #     ROUTE_NAME,
-    #     {'address_prefix': '0.0.0.0/0',
-    #      'next_hop_type': 'VirtualNetworkGateway'})
-    # )
-    #
-    # print("Get hub route info...")
-    # print(get_route(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME,
-    #     ROUTE_NAME)
-    # )
-    #
-    # print("Get hub route table info...")
-    # print(get_route_table(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME)
-    # )
-    #
-    # # Route and route table example for spoke
-    # print("Creating spoke route table...")
-    # print(create_update_route_table(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME,
-    #     {'location': my_location})
-    # )
-    #
-    # print("Creating spoke default route...")
-    # print(create_update_route(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME,
-    #     ROUTE_NAME,
-    #     {'address_prefix': '0.0.0.0/0',
-    #      'next_hop_type': 'VirtualNetworkGateway'})
-    # )
-    #
-    # print("Get spoke route info...")
-    # print(get_route(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME,
-    #     ROUTE_NAME)
-    # )
-    #
-    # print("Get spoke route table info...")
-    # print(get_route_table(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME)
-    # )
-    #
-    # # Subnet examples
-    # print("Creating hub subnets...")
-    # print(create_update_subnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     HUB_SUBNET_NAME_1,
-    #     {'address_prefix': '10.71.0.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
-    # )
-    # print(create_update_subnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     HUB_SUBNET_NAME_2,
-    #     {'address_prefix': '10.71.4.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
-    # )
-    # print(create_update_subnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     HUB_SUBNET_NAME_3,
-    #     {'address_prefix': '10.71.8.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
-    # )
-    #
-    # # Gateway subnet example
-    # print("Creating gateway subnet...")
-    # print(create_update_subnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     GW_SUBNET_NAME,
-    #     {'address_prefix': '10.71.15.0/27',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
-    # )
-    #
-    # print("Get gateway subnet info...")
-    # print(get_subnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME,
-    #     GW_SUBNET_NAME)
-    # )
-    #
-    # print("Creating spoke subnets...")
-    # print(create_update_subnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME,
-    #     SPOKE_SUBNET_NAME_1,
-    #     {'address_prefix': '10.71.64.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
-    # )
-    # print(create_update_subnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME,
-    #     SPOKE_SUBNET_NAME_2,
-    #     {'address_prefix': '10.71.68.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
-    # )
-    # print(create_update_subnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME,
-    #     SPOKE_SUBNET_NAME_3,
-    #     {'address_prefix': '10.71.72.0/22',
-    #      'route_table': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
-    # )
+    # Resource group example
+    print("Creating hub resource group...")
+    print(create_update_resource_group(
+        HUB_GROUP_NAME,
+        {'location': my_location})
+    )
+    print("Get hub resource group...")
+    print(get_resource_group(
+        HUB_GROUP_NAME)
+    )
+    print("Creating spoke resource group...")
+    print(create_update_resource_group(
+        SPOKE_GROUP_NAME,
+        {'location': my_location})
+    )
+    print("Get spoke resource group...")
+    print(get_resource_group(
+        SPOKE_GROUP_NAME)
+    )
 
-    # # Create BGP Resource Group
-    # print("Creating BGP resource group...")
-    # print(create_update_resource_group(
-    #     BGP_GROUP_NAME,
-    #     {'location': my_location})
-    # )
-    #
-    # # Local Network Gateways Example
-    # print("Creating local network gateway...")
-    # print(create_update_local_network_gateway(
-    #     BGP_GROUP_NAME,
-    #     LN_GW_NAME,
-    #     {'location': my_location,
-    #      'gateway_ip_address': LN_GW_IP,
-    #      'local_network_address_space': {
-    #          'address_prefixes': ['172.19.66.1/32']},
-    #      'bgp_settings' : {
-    #          'asn': LN_ASN,
-    #          'bgp_peering_address': '172.19.66.1'}
-    #      })
-    # )
-    #
-    # print("Getting local network gateway...")
-    # print(get_local_network_gateway(
-    #     BGP_GROUP_NAME,
-    #     LN_GW_NAME)
-    # )
+    # VNet example
+    print("Creating hub virtual network...")
+    print(create_update_virtual_networks(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        {'location': my_location,
+         'address_space': {'address_prefixes': ['10.71.0.0/20']},
+         'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
+         )
+    )
+
+    print("Creating spoke virtual network...")
+    print(create_update_virtual_networks(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        {'location': my_location,
+         'address_space': {'address_prefixes': ['10.71.64.0/20']},
+         'dhcp_options': {'dns_servers': ['10.64.0.139', '10.64.4.129']}}
+         )
+    )
+
+    print("Getting hub virtual network info...")
+    print(get_virtual_networks(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME)
+    )
+
+    print("Getting spoke virtual network info...")
+    print(get_virtual_networks(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME)
+    )
+
+    # Route and route table example for hub
+    print("Creating hub route table...")
+    print(create_update_route_tables(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
+        {'location': my_location})
+    )
+
+    print("Creating hub default route...")
+    print(create_update_routes(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
+        ROUTE_NAME,
+        {'address_prefix': '0.0.0.0/0',
+         'next_hop_type': 'VirtualNetworkGateway'})
+    )
+
+    print("Get hub route info...")
+    print(get_routes(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
+        ROUTE_NAME)
+    )
+
+    print("Get hub route table info...")
+    print(get_route_tables(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME)
+    )
+
+    # Route and route table example for spoke
+    print("Creating spoke route table...")
+    print(create_update_route_tables(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        {'location': my_location})
+    )
+
+    print("Creating spoke default route...")
+    print(create_update_routes(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        ROUTE_NAME,
+        {'address_prefix': '0.0.0.0/0',
+         'next_hop_type': 'VirtualNetworkGateway'})
+    )
+
+    print("Get spoke route info...")
+    print(get_routes(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        ROUTE_NAME)
+    )
+
+    print("Get spoke route table info...")
+    print(get_route_tables(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME)
+    )
+
+    # Subnet examples
+    print("Creating hub subnets...")
+    print(create_update_subnets(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_1,
+        {'address_prefix': '10.71.0.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+    print(create_update_subnets(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_2,
+        {'address_prefix': '10.71.4.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+    print(create_update_subnets(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        HUB_SUBNET_NAME_3,
+        {'address_prefix': '10.71.8.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+
+    # Gateway subnet example
+    print("Creating gateway subnet...")
+    print(create_update_subnets(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        GW_SUBNET_NAME,
+        {'address_prefix': '10.71.15.0/27',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Core_RT'}})
+    )
+
+    print("Get gateway subnet info...")
+    print(get_subnets(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME,
+        GW_SUBNET_NAME)
+    )
+
+    print("Creating spoke subnets...")
+    print(create_update_subnets(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_1,
+        {'address_prefix': '10.71.64.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
+    )
+    print(create_update_subnets(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_2,
+        {'address_prefix': '10.71.68.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
+    )
+    print(create_update_subnets(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME,
+        SPOKE_SUBNET_NAME_3,
+        {'address_prefix': '10.71.72.0/22',
+         'route_table': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Test_VNet_RG/providers/Microsoft.Network/routeTables/PGM_Test_RT'}})
+    )
+
+    # Create BGP Resource Group
+    print("Creating BGP resource group...")
+    print(create_update_resource_group(
+        BGP_GROUP_NAME,
+        {'location': my_location})
+    )
+
+    # Local Network Gateways Example
+    print("Creating local network gateway...")
+    print(create_update_local_network_gateways(
+        BGP_GROUP_NAME,
+        LN_GW_NAME,
+        {'location': my_location,
+         'gateway_ip_address': LN_GW_IP,
+         'local_network_address_space': {
+             'address_prefixes': ['172.19.66.1/32']},
+         'bgp_settings' : {
+             'asn': LN_ASN,
+             'bgp_peering_address': '172.19.66.1'}
+         })
+    )
+
+    print("Getting local network gateway...")
+    print(get_local_network_gateways(
+        BGP_GROUP_NAME,
+        LN_GW_NAME)
+    )
 
     # Public IP Address Example
     # print("Creating Public IP Address...")
-    # print(create_update_public_ip_address(
+    # print(create_update_public_ip_addresses(
     #     HUB_GROUP_NAME,
     #     GW_IP_NAME,
     #     {'location': my_location,
@@ -1668,13 +1668,13 @@ def main_va():
     # )
     #
     # print("Getting Public IP Address...")
-    # print(get_public_ip_address(
+    # print(get_public_ip_addresses(
     #     HUB_GROUP_NAME,
     #     GW_IP_NAME)
     # )
 
-    # print("Creating Network Interface for IP Configuration...")
-    # print(create_update_network_interface(
+    # print("Creating Network Interface...")
+    # print(create_update_network_interfaces(
     #     HUB_GROUP_NAME,
     #     NIC_NAME,
     #     {'location': my_location,
@@ -1691,64 +1691,64 @@ def main_va():
     # )
     #
     # print("Getting Network Interface...")
-    # print(get_network_interface(
+    # print(get_network_interfaces(
     #     HUB_GROUP_NAME,
     #     NIC_NAME)
     # )
 
     # Virtual Network Gateway Example
-    # print("Creating virtual network gateway...")
-    # print(create_update_virtual_network_gateway(
-    #     HUB_GROUP_NAME,
-    #     GW_NAME,
-    #     {'location': my_location,
-    #      'ip_configurations': [
-    #         {   'name': 'Default',
-    #             'private_ip_allocation_method': 'Dynamic',
-    #             'subnet': {
-    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Core_VNet/subnets/GatewaySubnet'},
-    #             'public_ip_address': {
-    #                 'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/publicIPAddresses/PGM_Core_GWY_IP'}
-    #         }],
-    #      'gateway_type': 'Vpn',
-    #      'vpn_type': 'RouteBased',
-    #      'bgp_settings': {
-    #          'asn': VNET_ASN},
-    #      'sku': {
-    #          'name': 'HighPerformance',
-    #          'tier': 'HighPerformance'}
-    #      })
-    # )
+    print("Creating virtual network gateway...")
+    print(create_update_virtual_network_gateways(
+        HUB_GROUP_NAME,
+        GW_NAME,
+        {'location': my_location,
+         'ip_configurations': [
+            {   'name': 'Default',
+                'private_ip_allocation_method': 'Dynamic',
+                'subnet': {
+                    'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworks/PGM_Core_VNet/subnets/GatewaySubnet'},
+                'public_ip_address': {
+                    'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/publicIPAddresses/PGM_Core_GWY_IP'}
+            }],
+         'gateway_type': 'Vpn',
+         'vpn_type': 'RouteBased',
+         'bgp_settings': {
+             'asn': VNET_ASN},
+         'sku': {
+             'name': 'HighPerformance',
+             'tier': 'HighPerformance'}
+         })
+    )
 
-    # print("Get virtual network gateway...")
-    # print(get_virtual_network_gateway(
-    #     HUB_GROUP_NAME,
-    #     GW_NAME)
-    # )
+    print("Get virtual network gateway...")
+    print(get_virtual_network_gateways(
+        HUB_GROUP_NAME,
+        GW_NAME)
+    )
 
-    # Virtual Network Gateway Connection Operation
-    # print("Creating virtual network gateway connection...")
-    # print(create_update_vnet_gateway_connection(
-    #     HUB_GROUP_NAME,
-    #     CONNECTION,
-    #     {'location': my_location,
-    #      'virtual_network_gateway1': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworkGateways/PGM_Core_GWY'},
-    #      'local_network_gateway2': {
-    #          'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_BGP_RG/providers/Microsoft.Network/localNetworkGateways/MLB_Local_VPN'},
-    #      'connection_type': 'IPsec',
-    #      'shared_key': SHARED_KEY,
-    #      'enable_bgp': 'True'
-    #      })
-    # )
-    #
+    #Virtual Network Gateway Connection Operation
+    print("Creating virtual network gateway connection...")
+    print(create_update_virtual_network_gateway_connections(
+        HUB_GROUP_NAME,
+        CONNECTION,
+        {'location': my_location,
+         'virtual_network_gateway1': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_VNet_RG/providers/Microsoft.Network/virtualNetworkGateways/PGM_Core_GWY'},
+         'local_network_gateway2': {
+             'id': '/subscriptions/149ea8e4-d7b6-4cb6-99c8-d36ad98aecb2/resourceGroups/PGM_Core_BGP_RG/providers/Microsoft.Network/localNetworkGateways/MLB_Local_VPN'},
+         'connection_type': 'IPsec',
+         'shared_key': SHARED_KEY,
+         'enable_bgp': 'True'
+         })
+    )
+
     # print("Getting virtual network gateway connection...")
     #
     # print("Deleting virtual network gateway connection...")
 
-    # Peerings example
+    # # Peerings example
     # print("Creating virtual network spoke peering...")
-    # print(create_update_peering(
+    # print(create_update_virtual_network_peerings(
     #     SPOKE_GROUP_NAME,
     #     SPOKE_VNET_NAME,
     #     SPOKE_NAME,
@@ -1760,18 +1760,18 @@ def main_va():
     # )
     #
     # print("Get spoke peering info...")
-    # print(get_peering(
+    # print(get_virtual_network_peerings(
     #     SPOKE_GROUP_NAME,
     #     SPOKE_VNET_NAME,
     #     SPOKE_NAME)
     # )
 
-    # Use hub network client with PGM_Core subscription
+    # # Use hub network client with PGM_Core subscription
     # network_client = NetworkManagementClient(credentials, hub_subscription_id,
     #                                          base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
-
+    #
     # print("Creating virtual network hub peering...")
-    # print(create_update_peering(
+    # print(create_update_virtual_network_peerings(
     #     HUB_GROUP_NAME,
     #     HUB_VNET_NAME,
     #     HUB_NAME,
@@ -1782,14 +1782,14 @@ def main_va():
     # )
     #
     # print("Get hub peering info...")
-    # print(get_peering(
+    # print(get_virtual_network_peerings(
     #     HUB_GROUP_NAME,
     #     HUB_VNET_NAME,
     #     HUB_NAME)
     # )
-
+    #
     # print("Deleting virtual network hub peering...")
-    # print(delete_peering(
+    # print(delete_virtual_network_peerings(
     #     HUB_GROUP_NAME,
     #     HUB_VNET_NAME,
     #     HUB_NAME)
@@ -1798,92 +1798,92 @@ def main_va():
     # # Switch back to CHQ_DR_Test subscription
     # network_client = NetworkManagementClient(credentials, subscription_id,
     #                                          base_url=AZURE_US_GOV_CLOUD.endpoints.resource_manager)
-    #
-    # # Test cascading deletes for dependencies
-    # print("Deleting virtual network spoke peering...")
-    # print(delete_peering(
-    #     GROUP_NAME,
-    #     VNET_NAME,
-    #     SPOKE_NAME)
-    # )
-    #
-    # print("Deleting subnet...")
-    # print(delete_subnet(
-    #     GROUP_NAME,
-    #     VNET_NAME,
-    #     SUBNET_NAME)
-    # )
 
-    # print("Deleting hub virtual network...")
-    # print(delete_vnet(
-    #     HUB_GROUP_NAME,
-    #     HUB_VNET_NAME)
-    # )
-    #
-    # print("Deleting spoke virtual network...")
-    # print(delete_vnet(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_VNET_NAME)
-    # )
-    #
-    # print("Deleting hub default route...")
-    # print(delete_route(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME,
-    #     ROUTE_NAME)
-    # )
-    #
-    # print("Deleting spoke default route...")
-    # print(delete_route(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME,
-    #     ROUTE_NAME)
-    # )
-    #
-    # print("Deleting hub route table...")
-    # print(delete_route_table(
-    #     HUB_GROUP_NAME,
-    #     HUB_RT_NAME)
-    # )
-    #
-    # print("Deleting spoke route table...")
-    # print(delete_route_table(
-    #     SPOKE_GROUP_NAME,
-    #     SPOKE_RT_NAME)
-    # )
-    #
-    # print("Deleting hub resource group...")
-    # print(delete_resource_group(
-    #     HUB_GROUP_NAME)
-    # )
-    #
-    # print("Deleting spoke resource group...")
-    # print(delete_resource_group(
-    #     SPOKE_GROUP_NAME)
-    # )
-    #
-    # print("Deleting local network gateway...")
-    # print(delete_local_network_gateway(
-    #     BGP_GROUP_NAME,
-    #     LN_GW_NAME)
-    # )
-    #
-    # print("Deleting Public IP Address...")
-    # print(delete_public_ip_address(
-    #     HUB_GROUP_NAME,
-    #     GW_IP_NAME)
-    # )
-    #
-    # print("Deleting Network Interface...")
-    # print(delete_network_interface(
-    #     HUB_GROUP_NAME,
-    #     NIC_NAME)
-    # )
-    #
-    # print("Delete virtual network gateway...")
-    # print(delete_virtual_network_gateway(
-    #     HUB_GROUP_NAME,
-    #     GW_NAME)
-    # )
+    # Test cascading deletes for dependencies
+    print("Deleting virtual network spoke peering...")
+    print(delete_virtual_network_peerings(
+        GROUP_NAME,
+        VNET_NAME,
+        SPOKE_NAME)
+    )
+
+    print("Deleting subnet...")
+    print(delete_subnets(
+        GROUP_NAME,
+        VNET_NAME,
+        SUBNET_NAME)
+    )
+
+    print("Deleting hub virtual network...")
+    print(delete_virtual_networks(
+        HUB_GROUP_NAME,
+        HUB_VNET_NAME)
+    )
+
+    print("Deleting spoke virtual network...")
+    print(delete_virtual_networks(
+        SPOKE_GROUP_NAME,
+        SPOKE_VNET_NAME)
+    )
+
+    print("Deleting hub default route...")
+    print(delete_routes(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME,
+        ROUTE_NAME)
+    )
+
+    print("Deleting spoke default route...")
+    print(delete_routes(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME,
+        ROUTE_NAME)
+    )
+
+    print("Deleting hub route table...")
+    print(delete_route_tables(
+        HUB_GROUP_NAME,
+        HUB_RT_NAME)
+    )
+
+    print("Deleting spoke route table...")
+    print(delete_route_tables(
+        SPOKE_GROUP_NAME,
+        SPOKE_RT_NAME)
+    )
+
+    print("Deleting hub resource group...")
+    print(delete_resource_group(
+        HUB_GROUP_NAME)
+    )
+
+    print("Deleting spoke resource group...")
+    print(delete_resource_group(
+        SPOKE_GROUP_NAME)
+    )
+
+    print("Deleting local network gateway...")
+    print(delete_local_network_gateways(
+        BGP_GROUP_NAME,
+        LN_GW_NAME)
+    )
+
+    print("Deleting Public IP Address...")
+    print(delete_public_ip_addresses(
+        HUB_GROUP_NAME,
+        GW_IP_NAME)
+    )
+
+    print("Deleting Network Interface...")
+    print(delete_network_interfaces(
+        HUB_GROUP_NAME,
+        NIC_NAME)
+    )
+
+    print("Delete virtual network gateway...")
+    print(delete_virtual_network_gateways(
+        HUB_GROUP_NAME,
+        GW_NAME)
+    )
 
 # END OF CUMULUS.PY
