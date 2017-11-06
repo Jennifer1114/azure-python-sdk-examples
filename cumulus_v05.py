@@ -1277,7 +1277,7 @@ def get_network_security_groups(
 
 def delete_network_security_groups(
         resource_group_name,
-        network_interface_name,
+        network_security_group_name,
         custom_headers=None,
         raw=False
 ):
