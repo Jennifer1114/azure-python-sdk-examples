@@ -35,7 +35,7 @@
 # Added peerings Network Operation functions to test create_or_update,
 # delete, and get.
 ###############################################################################
-# Version 04
+# Version 05
 # **********
 #
 # Updated all methods to not include a network_client parameter. Client is now
@@ -1302,6 +1302,315 @@ def delete_network_security_groups(
         )
         nsg_info.wait()
         print(nsg_info.status())
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+# Express Route Circuits Operations
+def create_update_express_route_circuits(
+        resource_group_name,
+        circuit_name,
+        parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates an express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the circuit.
+    :param parameters:  (ExpressRouteCircuit) – Parameters supplied to the
+        create or update express route circuit operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns ExpressRouteCircuit or
+        ClientRawResponse if raw=true
+    """
+    try:
+        erc_info = network_client.express_route_circuits.create_or_update(
+            resource_group_name,
+            circuit_name,
+            parameters,
+            custom_headers=None,
+            raw=None
+        )
+        erc_info.wait()
+        print(erc_info.result().provisioning_state)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def get_express_route_circuits(
+        resource_group_name,
+        circuit_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets information about the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of express route circuit.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: ExpressRouteCircuit or ClientRawResponse if raw=true
+    """
+    try:
+        erc_info = network_client.express_route_circuits.get(
+            resource_group_name,
+            circuit_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        print(erc_info)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def delete_express_route_circuits(
+        resource_group_name,
+        circuit_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+    try:
+        erc_info = network_client.express_route_circuits.delete(
+            resource_group_name,
+            circuit_name,
+            custom_headers=None,
+            raw=None
+        )
+        erc_info.wait()
+        print(erc_info.status())
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+# Express Route Circuit Authorizations Operations
+def create_update_express_route_circuit_authorizations(
+        resource_group_name,
+        circuit_name,
+        authorization_name,
+        authorization_parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates an authorization in the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param authorization_name: (str) – The name of the authorization.
+    :param authorization_parameters: (ExpressRouteCircuitAuthorization) –
+        Parameters supplied to the create or update express route circuit
+        authorization operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns
+        ExpressRouteCircuitAuthorization or ClientRawResponse if raw=true
+    """
+    try:
+        erca_info = network_client.express_route_circuit_authorizations.create_or_update(
+            resource_group_name,
+            circuit_name,
+            authorization_name,
+            authorization_parameters,
+            custom_headers=None,
+            raw=None
+        )
+        erca_info.wait()
+        print(erca_info.result().provisioning_state)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def get_express_route_circuit_authorizations(
+        resource_group_name,
+        circuit_name,
+        authorization_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets the specified authorization from the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param authorization_name: (str) – The name of the authorization.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: ExpressRouteCircuitAuthorization or ClientRawResponse if raw=true
+    """
+    try:
+        erca_info = network_client.express_route_circuit_authorizations.get(
+            resource_group_name,
+            circuit_name,
+            authorization_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        print(erca_info)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def delete_express_route_circuits_authorizations(
+        resource_group_name,
+        circuit_name,
+        authorization_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified authorization from the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param authorization_name: (str) – The name of the authorization.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+    try:
+        erca_info = network_client.express_route_circuit_authorizations.delete(
+            resource_group_name,
+            circuit_name,
+            authorization_name,
+            custom_headers=None,
+            raw=None
+        )
+        erca_info.wait()
+        print(erca_info.status())
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def create_update_express_route_circuit_peerings(
+        resource_group_name,
+        circuit_name,
+        peering_name,
+        peering_parameters,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Creates or updates a peering in the specified express route circuits.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param peering_name: (str) – The name of the peering.
+    :param peering_parameters: (ExpressRouteCircuitPeering) – Parameters
+        supplied to the create or update express route circuit peering
+        operation.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns
+        ExpressRouteCircuitPeering or ClientRawResponse if raw=true
+    """
+    try:
+        ercp_info = network_client.express_route_circuit_peerings.create_or_update(
+            resource_group_name,
+            circuit_name,
+            peering_name,
+            peering_parameters,
+            custom_headers=None,
+            raw=None
+        )
+        ercp_info.wait()
+        print(ercp_info.result().provisioning_state)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+
+def get_express_route_circuit_peerings(
+        resource_group_name,
+        circuit_name,
+        peering_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Gets the specified authorization from the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param peering_name: (str) – The name of the peering.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: ExpressRouteCircuitPeering or ClientRawResponse if raw=true
+    """
+    try:
+        ercp_info = network_client.express_route_circuit_peerings.get(
+            resource_group_name,
+            circuit_name,
+            peering_name,
+            expand=None,
+            custom_headers=None,
+            raw=None
+        )
+        print(ercp_info)
+
+    except azure_exceptions.CloudError as e:
+        print(e)
+
+def delete_express_route_circuit_peerings(
+        resource_group_name,
+        circuit_name,
+        peering_name,
+        custom_headers=None,
+        raw=False
+):
+    """
+    Deletes the specified peering from the specified express route circuit.
+
+    :param resource_group_name: (str) – The name of the resource group.
+    :param circuit_name: (str) – The name of the express route circuit.
+    :param peering_name: (str) – The name of the peering.
+    :param custom_headers: (dict) – headers that will be added to the request
+    :param raw: (bool) – returns the direct response alongside the deserialized
+        response
+    :return: AzureOperationPoller instance that returns None or
+        ClientRawResponse if raw=true
+    """
+    try:
+        ercp_info = network_client.express_route_circuit_peerings.delete(
+            resource_group_name,
+            circuit_name,
+            peering_name,
+            custom_headers=None,
+            raw=None
+        )
+        ercp_info.wait()
+        print(ercp_info.status())
 
     except azure_exceptions.CloudError as e:
         print(e)
